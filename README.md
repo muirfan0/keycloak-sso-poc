@@ -28,17 +28,17 @@ Each backend owns its own `AUTH_SSO_ENABLED` feature flag.
 If you do not already have Keycloak, install it natively into the ignored `.runtime/` directory:
 
 ```bash
-cd /Users/muirfan/dev/pocs
+cd /Users/{username}/dev/pocs
 ./scripts/install-keycloak.sh
 ```
 
 Install both frontend dependency sets:
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/frontend
+cd /Users/{username}/dev/pocs/app1/frontend
 npm install
 
-cd /Users/muirfan/dev/pocs/app2/frontend
+cd /Users/{username/dev/pocs/app2/frontend
 npm install
 ```
 
@@ -51,7 +51,7 @@ Use five terminals.
 ### Terminal 1: Keycloak (skip if already running on port 8080)
 
 ```bash
-cd /Users/muirfan/dev/pocs
+cd /Users/{username}/dev/pocs
 ./scripts/start-keycloak.sh
 ```
 
@@ -70,28 +70,28 @@ If the response says `Realm does not exist`, the realm still needs to be importe
 ### Terminal 2: App 1 backend with SSO
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/backend
+cd /Users/{username}/dev/pocs/app1/backend
 AUTH_SSO_ENABLED=true ./mvnw spring-boot:run
 ```
 
 ### Terminal 3: App 1 frontend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/frontend
+cd /Users/{username}/dev/pocs/app1/frontend
 npm run dev -- --host localhost
 ```
 
 ### Terminal 4: App 2 backend with SSO
 
 ```bash
-cd /Users/muirfan/dev/pocs/app2/backend
+cd /Users/{username}/dev/pocs/app2/backend
 AUTH_SSO_ENABLED=true ./mvnw spring-boot:run
 ```
 
 ### Terminal 5: App 2 frontend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app2/frontend
+cd /Users/{username}/dev/pocs/app2/frontend
 npm run dev -- --host localhost
 ```
 
@@ -112,28 +112,28 @@ Keycloak is not needed in local mode.
 ### App 1 backend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/backend
+cd /Users/{username}/dev/pocs/app1/backend
 AUTH_SSO_ENABLED=false ./mvnw spring-boot:run
 ```
 
 ### App 1 frontend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/frontend
+cd /Users/{username}/dev/pocs/app1/frontend
 npm run dev -- --host localhost
 ```
 
 ### App 2 backend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app2/backend
+cd /Users/{username}/dev/pocs/app2/backend
 AUTH_SSO_ENABLED=false ./mvnw spring-boot:run
 ```
 
 ### App 2 frontend
 
 ```bash
-cd /Users/muirfan/dev/pocs/app2/frontend
+cd /Users/{username}/dev/pocs/app2/frontend
 npm run dev -- --host localhost
 ```
 
@@ -146,20 +146,20 @@ The feature flags are backend environment variables and are read at startup. Sto
 Both apps in SSO mode:
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/backend
+cd /Users/{username}/dev/pocs/app1/backend
 AUTH_SSO_ENABLED=true ./mvnw spring-boot:run
 
-cd /Users/muirfan/dev/pocs/app2/backend
+cd /Users/{username}/dev/pocs/app2/backend
 AUTH_SSO_ENABLED=true ./mvnw spring-boot:run
 ```
 
 Both apps in local mode:
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/backend
+cd /Users/{username}/dev/pocs/app1/backend
 AUTH_SSO_ENABLED=false ./mvnw spring-boot:run
 
-cd /Users/muirfan/dev/pocs/app2/backend
+cd /Users/{username}/dev/pocs/app2/backend
 AUTH_SSO_ENABLED=false ./mvnw spring-boot:run
 ```
 
@@ -187,7 +187,7 @@ The React applications do not contain a feature flag. They retrieve the selected
 Keycloak does not overwrite an already-imported realm during ordinary startup. After changing `keycloak/realm-auth-demo.json`, stop Keycloak and run:
 
 ```bash
-cd /Users/muirfan/dev/pocs
+cd /Users/{username}/dev/pocs
 ./scripts/reset-keycloak-data.sh
 ./scripts/start-keycloak.sh
 ```
@@ -197,10 +197,10 @@ The reset script moves the previous data to a timestamped backup under `.runtime
 ## Verification
 
 ```bash
-cd /Users/muirfan/dev/pocs/app1/backend && ./mvnw test
-cd /Users/muirfan/dev/pocs/app2/backend && ./mvnw test
-cd /Users/muirfan/dev/pocs/app1/frontend && npm run lint && npm run build
-cd /Users/muirfan/dev/pocs/app2/frontend && npm run lint && npm run build
+cd /Users/{usename}/dev/pocs/app1/backend && ./mvnw test
+cd /Users/{username}/dev/pocs/app2/backend && ./mvnw test
+cd /Users/{username}/dev/pocs/app1/frontend && npm run lint && npm run build
+cd /Users/{username}/dev/pocs/app2/frontend && npm run lint && npm run build
 ```
 
 ## Adding PHP or other applications
