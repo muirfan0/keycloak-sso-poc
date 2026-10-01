@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:./data/app2-auth;AUTO_SERVER=TRUE}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  h2:
+    console:
+      enabled: false
+
+app:
+  auth:
+    # This is the authoritative feature flag. Restart the backend after changing it.
+    sso-enabled: ${AUTH_SSO_ENABLED:false}
+    local-issuer: ${AUTH_LOCAL_ISSUER:https://app2.local}
+    # Replace in every non-local environment (at least 32 random bytes).
+    local-secret: ${AUTH_LOCAL_SECRET:app2-different-dev-secret-change-this-32-bytes}
+    token-ttl: ${AUTH_TOKEN_TTL:PT30M}
+    keycloak-url: ${KEYCLOAK_URL:http://localhost:8080}
+    keycloak-realm: ${KEYCLOAK_REALM:auth-demo}
+    keycloak-client-id: ${KEYCLOAK_CLIENT_ID:app2-frontend}
+    keycloak-audience: ${KEYCLOAK_AUDIENCE:app2-api}
+    allowed-origins: ${AUTH_ALLOWED_ORIGINS:http://localhost:5174}
