@@ -86,7 +86,10 @@ export default function App() {
               <span>Subject</span><code>{profile?.subject ?? 'Loading…'}</code>
               <span>Issuer</span><code>{profile?.issuer ?? 'Loading…'}</code>
             </div>
-            <button className="secondary" onClick={() => void auth.logout()}>Sign out</button>
+            <div className="actions">
+              <a className="secondary link-button" href="http://localhost:8090">Open PHP App</a>
+              <button className="secondary" onClick={() => void auth.logout()}>Sign out</button>
+            </div>
           </div>
         )}
       </section>

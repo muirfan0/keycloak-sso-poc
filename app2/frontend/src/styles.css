@@ -46,6 +46,7 @@ button { padding: 12px 18px; border: 0; border-radius: 10px; cursor: pointer; fo
 button:disabled { opacity: .55; cursor: wait; }
 .primary { color: white; background: linear-gradient(135deg, #735cff, #5d7cff); }
 .secondary { color: #e7eaff; background: #242b40; }
+.link-button { display: inline-flex; align-items: center; text-decoration: none; border-radius: 10px; padding: 12px 18px; font-weight: 750; }
 .error { margin-top: 24px; padding: 12px 14px; border: 1px solid rgba(255, 99, 121, .4); border-radius: 10px; color: #ffc1ca; background: rgba(255, 65, 93, .1); }
 .hint { margin: -4px 0 0; font-size: 13px; color: #79839b; }
 .profile-grid { display: grid; grid-template-columns: auto 1fr; gap: 12px 18px; align-items: start; }
@@ -56,4 +57,3 @@ code { min-width: 0; overflow-wrap: anywhere; color: #d9e0f4; }
   .header { flex-direction: column-reverse; }
   .profile-grid { grid-template-columns: 1fr; }
 }
-

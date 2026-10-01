@@ -80,9 +80,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
             checkLoginIframe: false,
           })
           if (!cancelled) setSsoAuthenticated(authenticated)
-          client.onAuthLogout = () => setSsoAuthenticated(false)
+          // Do not react to the realm-session logout signal here. Another app
+          // may end the Keycloak session while this app's access token is still
+          // valid. This app changes state only when that token expires and its
+          // refresh attempt is rejected.
           client.onTokenExpired = () => {
-            void client.updateToken(30).catch(() => setSsoAuthenticated(false))
+            void client.updateToken(0.001).catch(async () => {
+              client.clearToken()
+              setSsoAuthenticated(false)
+              await client.login({ redirectUri: window.location.origin })
+            }).catch(caught => {
+              setError(caught instanceof Error ? caught.message : 'The Keycloak session has ended')
+            })
           }
         }
       } catch (caught) {
@@ -147,8 +156,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const authorizedFetch = useCallback(async (path: string, init: RequestInit = {}) => {
     let token = localToken
     if (mode === 'sso' && keycloak.current) {
-      await keycloak.current.updateToken(30)
-      token = keycloak.current.token ?? null
+      try {
+        // Keep using the current access token for its full two-minute lifetime.
+        // A refresh is attempted only when it has expired. If another app ended
+        // the realm session, Keycloak rejects the refresh and login starts again.
+        // keycloak-js treats zero as its default five-second minimum validity;
+        // a small positive value preserves the full access-token lifetime.
+        await keycloak.current.updateToken(0.001)
+        token = keycloak.current.token ?? null
+      } catch (caught) {
+        keycloak.current.clearToken()
+        setSsoAuthenticated(false)
+        await keycloak.current.login({ redirectUri: window.location.origin })
+        throw caught
+      }
     }
     if (!token) throw new Error('No access token is available')
 
